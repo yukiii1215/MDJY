@@ -17,7 +17,10 @@
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background: #f5f5f5;
+  background: #f7f7f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .fade-enter-active,
@@ -28,5 +31,14 @@
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+#app {
+  min-height: 100vh;
+  min-width: 100vw;
+  background: #f7f7f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style> 
