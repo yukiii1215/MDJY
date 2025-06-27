@@ -4,6 +4,9 @@ import { KJUR } from 'jsrsasign'
 const accessKey = import.meta.env.VITE_KELING_API_ACCESS_KEY
 const secretKey = import.meta.env.VITE_KELING_API_SECRET_KEY
 
+console.log('accessKey:', accessKey, typeof accessKey)
+console.log('secretKey:', secretKey, typeof secretKey)
+
 function generateToken() {
   const header = { alg: 'HS256', typ: 'JWT' }
   const now = Math.floor(Date.now() / 1000)

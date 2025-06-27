@@ -138,21 +138,6 @@ const buildPrompt = () => {
   ].filter(Boolean).join('，')
 }
 
-// JWT生成函数（如需本地生成JWT可解开并用jsonwebtoken库）
-const generateToken = () => {
-  const header = { alg: 'HS256', typ: 'JWT' }
-  const now = Math.floor(Date.now() / 1000)
-  const payload = {
-    iss: accessKey,
-    exp: now + 1800, // 30分钟有效
-    nbf: now - 5     // 提前5秒生效
-  }
-  const sHeader = JSON.stringify(header)
-  const sPayload = JSON.stringify(payload)
-  const token = KJUR.jws.JWS.sign('HS256', sHeader, sPayload, { utf8: secretKey })
-  return token
-}
-
 const generateImage = async () => {
   loading.value = true
   error.value = ''
