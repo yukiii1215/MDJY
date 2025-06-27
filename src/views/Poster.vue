@@ -66,8 +66,8 @@ import { KJUR } from 'jsrsasign'
 
 const router = useRouter()
 // ====== 你需要在此处填写你的accessKey和secretKey ======
-const accessKey = 'AkkpkBKhJpCBLNyfFJeMCNBJgEFpBAHJ' // TODO: 填写你的accessKey
-const secretKey = 'M3NdGdTQHEJYD9tgHCmhdaM8FQeeArNn' // TODO: 填写你的secretKey
+const accessKey = import.meta.env.VITE_KELING_API_ACCESS_KEY // 从环境变量读取
+const secretKey = import.meta.env.VITE_KELING_API_SECRET_KEY // 从环境变量读取
 // =====================================================
 
 const result = ref({
