@@ -27,8 +27,10 @@
         </div>
       </div>
       <div class="actions">
-       
         <button class="action-btn generate" :style="{ background: mainGradient }" @click="generatePoster">看看我的结艺守护符</button>
+        <button class="action-btn heritage" :style="{ border: '2px solid #FFD700', background: '#fff', color: mainColor, marginLeft: '0.5rem', fontWeight: 700 }" @click="goToHeritage">
+          了解更多非遗结艺
+        </button>
       </div>
     </div>
   </div>
@@ -149,6 +151,10 @@ const shareResult = () => {
 
 const generatePoster = () => {
   router.push('/poster')
+}
+
+const goToHeritage = () => {
+  window.open('https://dtjy.vercel.app/', '_blank')
 }
 
 const answers = JSON.parse(localStorage.getItem('testAnswers') || '[]')
@@ -444,6 +450,18 @@ onMounted(() => {})
 @keyframes btnShine {
   0% { transform: translateX(-100%) rotate(45deg); }
   100% { transform: translateX(100%) rotate(45deg); }
+}
+
+.action-btn.heritage {
+  border: 2px solid #FFD700;
+  background: #fff;
+  color: #b47b4d;
+  margin-left: 0.5rem;
+  font-weight: 700;
+}
+.action-btn.heritage:hover {
+  background: #fffbe6;
+  color: #ffb347;
 }
 
 @media (max-width: 414px) {
