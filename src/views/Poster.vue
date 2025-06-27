@@ -63,11 +63,11 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { KJUR } from 'jsrsasign'
+import { createKelingImageTask, pollKelingImageTask } from '@/api/keling'
 
 const router = useRouter()
 // ====== 你需要在此处填写你的accessKey和secretKey ======
-const accessKey = import.meta.env.VITE_KELING_API_ACCESS_KEY // 从环境变量读取
-const secretKey = import.meta.env.VITE_KELING_API_SECRET_KEY // 从环境变量读取
+// 已移除，统一由 src/api/keling.ts 管理
 // =====================================================
 
 const result = ref({
@@ -158,45 +158,12 @@ const generateImage = async () => {
   error.value = ''
   imageUrl.value = ''
   try {
-    const token = generateToken()
-    const res = await axios.post(
-      'https://api-beijing.klingai.com/v1/images/generations',
-      {
-        model_name: 'kling-v1-5',
-        prompt: buildPrompt(),
-        aspect_ratio: '3:4',
-        n: 1
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }
-    )
-    const taskId = res.data.data.task_id
-    // 轮询获取图片
-    let status = ''
-    let img = ''
-    for (let i = 0; i < 20; i++) {
-      await new Promise(r => setTimeout(r, 2000))
-      const poll = await axios.get(
-        `https://api-beijing.klingai.com/v1/images/generations/${taskId}`,
-        { headers: { 'Authorization': `Bearer ${token}` } }
-      )
-      status = poll.data.data.task_status
-      if (status === 'succeed') {
-        img = poll.data.data.task_result.images[0].url
-        break
-      }
-      if (status === 'failed') {
-        throw new Error('生成失败')
-      }
-    }
-    if (!img) throw new Error('生成超时')
+    const taskId = await createKelingImageTask(buildPrompt())
+    const img = await pollKelingImageTask(taskId)
     imageUrl.value = img
   } catch (e) {
-    error.value = e.message || '生成失败'
+    console.error('生成失败详细信息:', e)
+    error.value = (e && e.message ? e.message : JSON.stringify(e)) + '\n请检查环境变量配置和 API Key 是否正确。'
   } finally {
     loading.value = false
   }
